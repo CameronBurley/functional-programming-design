@@ -28,18 +28,24 @@ abstract class QuickCheckHeap extends Properties("Heap") with IntHeap:
     findMin(h) == a
   }
 
-  property("melding heaps") = forAll { (h1: H, h2: H) =>
-    val m1 = if isEmpty(h1) then None else Some(findMin(h1))
-    val m2 = if isEmpty(h2) then None else Some(findMin(h2))
-    val melded = meld(h1, h2)
-    val m = findMin(melded)
-    m == m1.getOrElse(m2.getOrElse(m))
+  property("meld min element") = forAll { (h1: H, h2: H) =>
+    val minElement1 = findMin(h1)
+    val minElement2 = findMin(h2)
+    val meldedHeap = meld(h1, h2)
+    val meldedMinElement = findMin(meldedHeap)
+
+    val ans = meldedMinElement == minElement1 || meldedMinElement == minElement2
+    if !ans then println(meldedMinElement)
+    ans
   }
 
   property("deleteMin") = forAll { (h: H) =>
-    val m = if isEmpty(h) then 0 else findMin(h)
-    val h2 = deleteMin(h)
-    if isEmpty(h2) then true else findMin(h2) != m
+    if isEmpty(h) then
+      true
+    else
+      val m = if isEmpty(h) then 0 else findMin(h)
+      val h2 = deleteMin(h)
+      if isEmpty(h2) then true else findMin(h2) >= m
   }
 
   property("order of elements") = forAll { (h: H) =>
