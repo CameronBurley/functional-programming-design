@@ -1,14 +1,10 @@
 package quickcheck
 
-trait IntHeap extends Heap:
-  override type A = Int
-  override def ord = scala.math.Ordering.Int
-
 // http://www.brics.dk/RS/96/37/BRICS-RS-96-37.pdf
 
 // Figure 1, page 3
 trait Heap:
-  type H // type of a heap
+  type H // the heap
   type A // type of an element
   def ord: Ordering[A] // ordering on elements
 
@@ -20,6 +16,11 @@ trait Heap:
 
   def findMin(h: H): A // a minimum of the heap h
   def deleteMin(h: H): H // a heap resulting from deleting a minimum of h
+
+// IntHeap is of type Heap
+trait IntHeap extends Heap:
+  override type A = Int
+  override def ord = scala.math.Ordering.Int
 
 // Figure 3, page 7
 trait BinomialHeap extends Heap:
