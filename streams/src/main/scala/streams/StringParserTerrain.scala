@@ -33,8 +33,6 @@ trait StringParserTerrain extends GameDef:
     'o'
   )
 
-  def isValidTerrainCharacter(char: Char): Boolean = validTerrainCharacters(char)
-
   /**
    * A ASCII representation of the terrain. This field should remain
    * abstract here.
@@ -62,7 +60,7 @@ trait StringParserTerrain extends GameDef:
   def terrainFunction(levelVector: Vector[Vector[Char]]): Pos => Boolean = (pos: Pos) => {
     lazy val rowExists = levelVector.isDefinedAt(pos.row)
     lazy val columnExists = levelVector(pos.row).isDefinedAt(pos.col)
-    lazy val validCharacter = isValidTerrainCharacter(levelVector(pos.row)(pos.col))
+    lazy val validCharacter = validTerrainCharacters(levelVector(pos.row)(pos.col))
     rowExists && columnExists && validCharacter
   }
 
